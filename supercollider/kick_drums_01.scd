@@ -4,7 +4,7 @@
 ~dust_rev = Group.after(~dust);
 ~rev = Bus.audio(s, 2);
 
-SynthDef(\bass,{|freq = 60, amp = 1|
+SynthDef(\drums,{|freq = 60, amp = 1|
 	var sig, env;
 	sig = Impulse.ar(freq!2);
 	env = EnvGen.ar(Env.perc(0.001, level:4), doneAction:2);
@@ -13,7 +13,7 @@ SynthDef(\bass,{|freq = 60, amp = 1|
 	Out.ar(0, sig);
 }).add;
 
-SynthDef.new(\kick,{| freq=60, mix = 0.2, room=0.1|
+SynthDef(\kick,{| freq=60, mix = 0.2, room=0.1|
 	var sig, env_sig, env_freq, amp=0.5;
 	env_freq = EnvGen.kr(Env.perc(0.001,0.2,2.5));
 	sig = SinOsc.ar(60!2*env_freq, pi*LFNoise0.kr(2).range(0.25,0.5));
@@ -41,16 +41,11 @@ SynthDef(\rev,{
 
 (
 Pdefn(\d1_dur, Prand([0.5],inf));
-Pdefn(\d2_dur, Pseq([
-	Pseq([0.5, 0.5,0.5,0.5,0.25],10),
-	Pseq([0.5, 0.5, 0.25], 5+rand(5)),
-	Pseq([1, 0.5, 0.25, 0.75], 1)],inf)
-	);
-Pdefn(\d2_dur_bis, Pseq([0.5, 0.5,0.5,0.5,0.25],inf));
+Pdefn(\d2_dur, Pseq([0.5, 0.5,0.5,0.5,0.25],inf));
 Pdefn(\d1_freq, Prand([60, 63],inf));
 
 ~d1=Pbind(
-	\instrument, \bass,
+	\instrument, \drums,
 	\dur, Pdefn(\d1_dur),
 	\freq, Pdefn(\d1_freq),
 	\amp, Pseq([3],inf),
@@ -58,6 +53,7 @@ Pdefn(\d1_freq, Prand([60, 63],inf));
 
 ~d2=Pbind(
 	\instrument, \kick,
+	//\dur, Prand([0.25, 0.5], inf),
 	\dur, Pdefn(\d2_dur),
 	\freq, Pseq([60], inf),
 	\mix, 0.2,
