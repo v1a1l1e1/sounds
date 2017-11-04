@@ -1,6 +1,7 @@
 /* setup */
-(
 s.boot;
+
+(
 p=ProxySpace.push(s);
 p.fadeTime=2;
 p.makeTempoClock(2);
@@ -18,6 +19,8 @@ s.plotTree;
 ~f.stop;
 ~g.stop;
 s.quit;
+
+s.freeAll;
 )
 
 /* load synth */
@@ -36,7 +39,7 @@ SynthDef(\wah, {|freq=200, iphase=0, width=0.5, out=0, amp=1, pan_f=1|
 }).add;
 )
 
-/*load pattern */
+/*load patterns */
 (
 ~e = Pbind(
 	\instrument, \wah,
@@ -44,12 +47,14 @@ SynthDef(\wah, {|freq=200, iphase=0, width=0.5, out=0, amp=1, pan_f=1|
 	\iphase, Prand((0..2),inf)*pi,
 	\freq, Pxrand((50..60), inf),
 	\pan_f, (0.1, 0.15..7).choose,
-	\amp, 0.05, // CAREFUL!!! it's loud!
-);
+	//\amp, 0.06, // CAREFUL!!! it's loud!
+).play;
+)
+(
 ~f = Pbind(
 	\instrument, \k,
 	\dur, 0.5,
-	\gate, 0, //1 to activate
+	\gate, 1, //1 to activate
 	\freq, Pxrand([
 		Pxrand((50, 55..400),4),
 		Pxrand((75, 90..600), 6),
@@ -61,7 +66,7 @@ SynthDef(\wah, {|freq=200, iphase=0, width=0.5, out=0, amp=1, pan_f=1|
 ~g = Pbind(
 	\instrument, \k,
 	\dur, 1,
-	\gate, 0, //1 to activate
+	\gate, 1, //1 to activate
 	\freq, Pxrand([
 		Pxrand((150, 155..600),4),
 		Pxrand((175, 190..2000), 6),
