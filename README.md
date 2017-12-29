@@ -4,3 +4,4 @@
 - SuperCollider
 - Pure Data
 - ChucK
+- tidalcycles
