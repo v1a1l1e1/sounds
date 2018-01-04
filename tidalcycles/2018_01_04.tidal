@@ -1,0 +1,11 @@
+--d1 $ n (off 0.75 (+1)$ slow 2 $ "0*2 1 2") #sound "bd gabba sn" # gain 0.8
+
+d3 $ n " 0 1 " # sound "drum drum" # gain 0.8
+
+d1 $ rarely degrade $ every 6 (rev) $ every 4 (|=| sound "blip") $ n "1 1 0 2 " # sound "arpy" # gain 0.6
+
+d2 $ every 23 rev $ rarely (off 0.125 (# n "2 1")) $ every 5 (off 0.25 (# n "0 1")) $ every 9 (|+| speed 3)  $ n "0 0"  # sound "bd sn" # speed 1 # gain 0.9
+
+d2 silence
+
+hush

@@ -1,0 +1,16 @@
+--import qualified Sound.Tidal.Scales as Scales
+
+--Scales.majPent
+
+--d1 $ n (toScale Scales.minPent  "0 1 2 3 4 ") # sound "supermandolin"
+
+d1 $ rarely (rev) 
+$ sometimes (off 0.25 (# s "tok")) 
+$ sometimes (|+| up (choose[3, 7, 2, 9, 10 , 4, 12, (-3), (-7), (-9), (-2), (-5), (-10)]))   
+$ every 14 (degrade) 
+$ every 3 (# cutoff "300") 
+$ every 9 (# cutoff "1200") 
+$ every 5 (|=| speed "5")  
+$  n (irand 20) # s "voodoo voodoo"
+
+hush
