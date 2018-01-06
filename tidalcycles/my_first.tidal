@@ -1,0 +1,11 @@
+d1 $ every 5 (rev) 
+$ every 9 (0.25 <~)
+$ every 7 (off 0.5 (# speed 2)) 
+$ every 11 (off 0.75 (# delay 0.1))
+$ every 25 (degradeBy 0.4)
+$ sometimes (|+| up (choose[3, 7, 2, 9, 10 , (-3), (-7), (-9), (-2), (-5), (-10)])) 
+$ n (run 4) # sound " bass" # pan (slow 10 $ scale 0.25 0.75  sine)
+
+d2 $ sound "bd(3,11)"
+
+hush
