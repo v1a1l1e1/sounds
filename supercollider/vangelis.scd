@@ -15,7 +15,7 @@ SynthDef(\sum, {|freq=100, amp=0.1|
 	var sig=0, tmp;
 	10.do{
 		arg cnt;
-		tmp = SinOsc.ar(freq * (cnt+1) * LFNoise1.kr({Rand(0.05, 0.2)}!2).range(0.98, 1.02));
+		tmp = SinOsc.ar(freq * (cnt/2+1) * LFNoise1.kr({Rand(0.05, 0.2)}!2).range(0.98, 1.02));
 		tmp = tmp * EnvGen.kr(Env.perc(0.1, 0.7, LFNoise1.kr({Rand(0.5, 8)}!2).exprange(0.01, 1)), doneAction:2);
 		sig = sig + tmp;
 	};
@@ -41,5 +41,6 @@ b = Pbind(
 Ppar([a, b]).play;
 )
 
+b.play
 s.plotTree;
 
