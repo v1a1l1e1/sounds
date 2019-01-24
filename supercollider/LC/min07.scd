@@ -20,7 +20,7 @@ p.fadeTime=5;
 ~np.play;
 
 ~pulse2 = {Pulse.ar(LFNoise2.kr(0.1).range(150,200), LFNoise1.kr(0.1).range(0.1,0.9),0.3)}
-~pulseG2 = {GrainIn.ar(1, Impulse.kr(LFNoise1.kr(0.1).range(0.2,0.6)),0.0001,[~pulse.ar,~noise_fb.ar],mul:0.5)}
+~pulseG2 = {GrainIn.ar(1, Impulse.kr(LFNoise1.kr(0.3).range(0.2,0.6)),0.0001,[~pulse.ar,~noise_fb.ar],mul:0.5)}
 ~pulseG2.play;
 
 (
@@ -46,7 +46,7 @@ p.fadeTime=5;
 
 ~k = Pbind(\instrument, \bplaym, \buf, d["k"][1], \amp, 0.15, \dur, Pbjorklund(Prand([3,5,4],inf),8), \rate, Pwhite(0.1,3));
 ~k3 = Pbind(\instrument, \bplaym, \buf, d["k"][1], \amp, 0.15, \dur, Pbjorklund(Prand([3,5],inf),8,inf,4), \rate, Pwhite(2,5));
-~k2 = Pbind(\instrument, \bplaym, \buf, d["k"][1], \amp, 0.1, \dur, Pwrand([1,Pbjorklund(Prand([3,5,7],8),Prand([8,13],8))],[0.8,0.2],inf), \rate, Pwhite(1.5,4));
+~k2 = Pbind(\instrument, \bplaym, \buf, d["k"][1], \amp, 0.1, \dur, Pwrand([1,Pbjorklund2(Prand([3,5,7],8),Prand([8,13],8))/2],[0.8,0.2],inf), \rate, Pwhite(1.5,8));
 ~k.play;~k2.play;~k3.play;
 
 
@@ -57,10 +57,11 @@ p.fadeTime=5;
 ~ring2.play;  ~ring.play; ~ring3.play;~ring4.play;
 
 
-~k2.stop(60)
+~k3.stop;
+~k2.stop(60);
 ~np.stop(20);
-~droneF.stop(40)
-~pulseG2.stop(15)
+~drone2F.stop(10);
+~pulseG2.stop(15);
 ~ring.stop(2); ~ring2.stop(20); ~ring3.stop(15); ~ring4.stop(10);
 
 

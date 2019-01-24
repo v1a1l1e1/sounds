@@ -14,6 +14,6 @@
 )
 
 (
-~sin = Pbind(\instrument, \sinfb, \scale, Scale.minor, \octave, Prand([4,3],inf), \root, 0, \degree, Prand([0,2,5,4,7],inf), \fb, 0.1, \amp, 0.4, \dur, Pwrand([0.5, Pbjorklund(3,8)],[0.9, 0.1],inf), \rel, 0.5);
+~sin = Pbind(\instrument, \sinfb, \scale, Scale.major, \octave, Prand([4,3,2],inf), \root, 0, \degree, Prand([Pseq([2,4,2,5],inf),0,2,5,4,7],inf), \fb, 0.1, \amp, 0.4, \dur, Pwrand([0.5, Pbjorklund(3,8)],[0.9, 0.1],inf), \rel, 0.25);
 ~sin.play;
 )
