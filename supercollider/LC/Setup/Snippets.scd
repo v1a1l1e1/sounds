@@ -334,3 +334,35 @@ d[\\offtom3] = Pseq([0],1);
 
 //Streson string effect
 DDWSnippets.put("streson","~streson = {Streson.ar(##Silent.ar##,0.0003,1,1)}");
+
+
+DDWSnippets.put("gendy_glitch","(
+{
+	var n;
+	n=10;
+	Resonz.ar(
+		Mix.fill(n,{
+			var freq, numcps;
+			freq= rrand(50,560.3);
+			numcps= rrand(2,20);
+
+			Pan2.ar(Gendy3.ar(
+				6.rand,
+				6.rand,
+				1.0.rand,
+				1.0.rand,
+				freq,
+				1.0.rand,
+				1.0.rand,
+				numcps,
+				SinOsc.kr(exprand(0.02,0.2),0, numcps/2, numcps/2),
+				0.5/(n.sqrt)
+			), 1.0.rand2)
+		}),
+		Lag.kr(LFNoise0.kr(1).range(100,2000),0.5),
+		Lag.kr(LFNoise0.kr(1).range(0.01,1),0.25))
+		//MouseX.kr(100,2000),
+		//MouseY.kr(0.01,1.0), 0.3);
+
+}.play
+)");
