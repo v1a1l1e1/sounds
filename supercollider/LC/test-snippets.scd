@@ -30,8 +30,9 @@ Ndef(\gendy_glitch,{
 
 Ndef(\gendy_glitch).play;
 
-~k = Pbind(\instrument, \gplay1, \buf, d["k"][1], \dur, Pbjorklund2(Prand([3,5,2,4],inf),Prand([8,7,11,13],inf))/4, \amp, 0.5);
-~k.play;
+~k = Pbind(\instrument, \gplay2, \buf, d["k"][0], \dur, Pbjorklund2(Prand([3,5,2,4],inf),Prand([8,7,11,13],inf))/4, \amp, 0.5);
+~k.stop;
 
 ~fx_send = {Mix.ar([~k.ar])};
-~rev = {FreeVerb.ar(Mix.ar([~fx_send.ar]),0.8,0.7)};
+~rev = {CombC.ar(FreeVerb.ar(Mix.ar([~fx_send.ar]),0.8,0.7),0.3,0.2,0.1)};
+~rev.play;

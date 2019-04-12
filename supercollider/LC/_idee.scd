@@ -13,7 +13,7 @@ x.free;
 
 b = Buffer.read(s,Platform.resourceDir +/+"sounds/a11wlk01.wav"); // remember to free the buffer later.
 (
-x = {
+~y = {
     var sig, mode, woo;
     sig = PlayBuf.ar(1, b.bufnum, BufRateScale.kr(b.bufnum) * 0.75, startPos: 92898, loop: 1);
     woo = {
@@ -26,6 +26,5 @@ x = {
     woo = (woo * 0.9) + (woo.reverse * 0.1);
 }.play;
 )
-x.free;
+y.free;
 b.free;
-
