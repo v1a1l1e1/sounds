@@ -25,7 +25,7 @@ Task({
 	)});
 
 	"Loading synths".postln;
-	("SynthDefs.scd").loadRelative;
+	("synthdefs.scd").loadRelative;
 	"Loading snippets".postln;
 	("Snippets.scd").loadRelative; // ctrl + `
 
