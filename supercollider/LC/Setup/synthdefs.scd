@@ -318,12 +318,13 @@ SynthDef(\pad, {
 	Out.ar(out, Pan2.ar(sig*amp, 0));
 }).add;
 
-SynthDef(\synth,{|freq=220, harms=50, edur=1,amp=1|
+SynthDef(\synth,{|out = 0, freq=220, harms=50, edur=1,amp=1|
 	var sig, env;
 	sig = Blip.ar(freq, harms) + VarSaw.ar(freq, mul:0.2);
 	env = EnvGen.kr(Env.sine(edur), doneAction:2);
 	sig = Resonz.ar(sig, SinOsc.kr(edur/2).range(freq/2, freq*2), 0.1);
-	Out.ar(0, DFM1.ar(sig!2, freq, 0.5,mul:amp));
+	sig = DFM1.ar(sig!2, freq, 0.5);
+	Out.ar(out, sig*env*amp);
 }).add;
 
 SynthDef(\bass,{

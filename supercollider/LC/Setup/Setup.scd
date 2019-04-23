@@ -16,7 +16,7 @@ Task({
 	3.wait;
 	"loading samples".postln;
 	d = Dictionary.new;
-	d.add(\foldernames -> PathName(thisProcess.nowExecutingPath.dirname +/+ "../samples").entries);
+	d.add(\foldernames -> PathName(thisProcess.nowExecutingPath.dirname +/+ "../samples_SC").entries);
 	for (0, d[\foldernames].size-1,
 		{arg i; d.add(d[\foldernames][i].folderName -> d[\foldernames][i].entries.collect({
 			arg sf;
