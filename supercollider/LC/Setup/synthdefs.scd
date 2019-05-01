@@ -328,7 +328,7 @@ SynthDef(\synth,{|out = 0, freq=220, harms=50, edur=1,amp=1|
 }).add;
 
 SynthDef(\bass,{
-	|freq=100, amp=0.9|
+	|out=0,freq=100, amp=0.9|
 	var sig, sig2, sig1, env1, env2;
 	sig1 = LFTri.ar(freq!2);
 	sig1 = LPF.ar(sig1, freq/3*2);
@@ -340,11 +340,11 @@ SynthDef(\bass,{
 	sig1 = sig1 + sig2;
 	sig1 = DFM1.ar(sig1, freq);
 	sig = sig1*env1;
-	Out.ar(0, sig*amp);
+	Out.ar(out, sig*amp);
 }).add;
 
 SynthDef(\bass2,{
-	|freq=100, amp=0.9|
+	|out=0,freq=100, amp=0.9|
 	var sig, sig2, sig1, env1, env2;
 	sig1 = Saw.ar(freq!2);//LFTri.ar(freq!2);
 	sig1 = LPF.ar(sig1, freq/1.1);
@@ -356,7 +356,7 @@ SynthDef(\bass2,{
 	sig1 = sig1 + sig2;
 	sig1 = DFM1.ar(sig1, freq);
 	sig = sig1*env1;
-	Out.ar(0, sig*amp);
+	Out.ar(out, sig*amp);
 }).add;
 
 SynthDef(\fm,{
@@ -411,21 +411,21 @@ SynthDef(\raw, {
 /* DRONES */
 
 SynthDef(\82, {
-	|base_freq=3, freq_l=1, freq_r=1.01, phase=0, mul=100, add=230, amp=4, atk=3, sus=2, rel=3, rq=0.001|
+	|out=0,base_freq=3, freq_l=1, freq_r=1.01, phase=0, mul=100, add=230, amp=4, atk=3, sus=2, rel=3, rq=0.001|
 	var sig, env;
 	sig = Saw.ar(LFSaw.kr(base_freq * [freq_l, freq_r], phase, mul, add));
 	env = EnvGen.kr(Env([0,1,1,0],[atk, sus, rel],\sine),doneAction:2);
 	sig = BPF.ar(sig, base_freq*mul, rq);
-	Out.ar(0, sig*amp*env);
+	Out.ar(out, sig*amp*env);
 }).add;
 
-SynthDef(\mu, {|freq = 200, fb=0.5, amp=0.5|
+SynthDef(\mu, {|out=0,freq = 200, fb=0.5, amp=0.5|
 	var sig, env;
 	sig = SinOscFB.ar([freq, freq+1.1, freq-1.1, freq+0.5], fb);
 	env = EnvGen.kr(Env.linen(0.1, 1, 1.7, 3,\sine), doneAction:2);
 	sig = FreeVerb.ar(sig, 0.8, 0.9, 0.7);
 	sig = Resonz.ar(sig, LFNoise0.kr(0.5).range(freq/2, freq*3/2), 0.1);
-	Out.ar(0, Splay.ar(sig*env)*amp);
+	Out.ar(out, Splay.ar(sig*env)*amp);
 }).add;
 
 /*--------------------------------------------------------------------------------*/
