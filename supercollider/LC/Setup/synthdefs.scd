@@ -141,11 +141,11 @@ SynthDef(\g_play1, {
 
 /* BufRd stereo */
 SynthDef(\g_play2, {
-	|out=0, buf, rate=1,int=1, amp=1, start=0, end=1, reset=0, d=1, trig=0|
+	|out=0, buf, rate=1,int=1, amp=1, start=0, end=1, reset=0, d=1, trig=0, pan=0|
 	var sample, env;
 	sample = BufRd.ar(2, buf,Phasor.ar(trig,BufRateScale.ir(buf)*rate, start,BufFrames.kr(buf)*end,BufFrames.kr(buf)*reset),0,int);
 	env = EnvGen.kr(Env.linen(0.001,BufDur.kr(buf)*d,0.001),doneAction:2);
-	Out.ar(out, Pan2.ar(sample*env,0,amp));
+	Out.ar(out, Pan2.ar(sample*env,pan,amp));
 }).add;
 
 /* PlayBuf mono */
@@ -296,13 +296,13 @@ SynthDef(\glitchy2, {
 /*--------------------------------------------------------------------------------*/
 /* SYNTH */
 
-SynthDef(\ringM, {|freq=200, mod=50, amp_mod=1, amp=1,fb=1|
+SynthDef(\ringM, {|out=0,freq=200, mod=50, amp_mod=1, amp=1,fb=1|
 	var sig, osc_car, osc_mod, env;
 	osc_mod = SinOscFB.ar(mod, fb, mul:amp_mod);
 	osc_car = SinOsc.ar(freq, mul:osc_mod);
 	env = EnvGen.kr(Env([0, 1, 1, 0], [0.5, 1, 0.5]), doneAction:2);
 	sig = osc_car * amp * env;
-	Out.ar(0, sig);
+	Out.ar(out, sig);
 }).add;
 
 SynthDef(\pad, {
@@ -446,13 +446,13 @@ SynthDef(\bub, {|freq=220, density=20, pan=0, envbuf=(-1), out=0|
 }).add;
 
 SynthDef(\blip, {
-	|freq = 1000, harms = 50|
+	|out=0, freq = 1000, harms = 50|
 	var sig, env;
 	sig = Blip.ar([LFNoise1.kr(0.7).range(freq-1.1, freq+1.1), LFNoise1.kr(0.5).range(freq-0.5, freq+0.5)], harms,3)*SinOsc.ar(3).range(0.1, 1);
 	sig = LPF.ar(sig, 3000);
 	sig = Resonz.ar(sig, SinOsc.kr(1.5).range(freq/2, freq*2), 0.01, 4);
 	env = EnvGen.kr(Env([0,1,1,0], [4,1.5,1], \sine), doneAction:2);
-	Out.ar(0, sig*env);
+	Out.ar(out, sig*env);
 }).add;
 
 SynthDef(\medium, {
@@ -473,7 +473,7 @@ SynthDef(\arp, {
 }).add;
 
 SynthDef(\player, {
-	|lpf_f=2000, hpf_f=2000, res_f=2000,qr=0.9, makeup=1, amp=1, dur_=1|
+	|out=0,lpf_f=2000, hpf_f=2000, res_f=2000,qr=0.9, makeup=1, amp=1, dur_=1|
 	var sig, env_pulse_f, env_pulse_a, env_noise;
 	env_pulse_f = Env([0.1, 0.9, 0],[0.4, 0.61]);
 	env_pulse_a = Env.perc(0.01,0.5);
@@ -485,25 +485,26 @@ SynthDef(\player, {
 	sig = LPF.ar(sig, lpf_f,3);
 	sig = HPF.ar(sig, hpf_f,3);
 	sig = Resonz.ar(sig, res_f,qr, (1/qr));
-	Out.ar(0, Pan2.ar(sig*(amp*makeup), 0));
+	Out.ar(out, Pan2.ar(sig*(amp*makeup), 0));
 }).add;
 
-SynthDef(\dust, {arg gate = 1, roomsize = 200, revtime = 450, amp=1, f_d=6, f_n=1;
+SynthDef(\dust, {
+	|out=0, gate = 1, roomsize = 200, revtime = 450, amp=1, f_d=6, f_n=1|
 	var src, env, gverb;
 	env = EnvGen.kr(Env([0, 1, 0], [1, 4], [4, -4], 1), doneAction: 2);
 	src = Resonz.ar(Array.fill(4, {Dust.ar(f_d)}),1760 * [1, 2.2, 3.95, 8.76] + Array.fill(4, {LFNoise2.kr(f_n, 20)}),0.01).sum * 30.dbamp;
 	gverb = GVerb.ar(src,roomsize,revtime,0.99,LFNoise2.kr(0.1).range(0.9, 0.7),LFNoise1.kr(0.2).range(0.2, 0.6), -60.dbamp,-18.dbamp,3.dbamp,roomsize);
-	Out.ar(0, gverb * amp*env)
+	Out.ar(out, gverb * amp*env)
 }).add;
 
 
 
-SynthDef(\noiz, {|freq = 50, pan = 0, attack = 0.01, release = 0.3, amp=0.08|
+SynthDef(\noiz, {|out=0,freq = 50, pan = 0, attack = 0.01, release = 0.3, amp=0.08|
 	var sig, env;
 	sig = SinOsc.ar(Dust2.kr(LFClipNoise.kr(freq!2).exprange(50,200),3));
 	env = EnvGen.ar(Env.perc(attack, release),doneAction:2);
 	sig = Pan2.ar(sig, pan);
-	Out.ar(0, sig*amp);
+	Out.ar(out, sig*amp);
 }).add;
 
 SynthDef(\wo,{
@@ -523,12 +524,12 @@ SynthDef(\wo,{
 }).add;
 
 SynthDef(\dst, {
-	|freq=200, dfreq=10, pan=0, amp=1|
+	|out=0,freq=200, dfreq=10, pan=0, amp=1|
 	var sig, env;
 	sig = SinOsc.ar(freq, mul: Dust.kr(dfreq));
 	env = EnvGen.kr(Env.perc(0, 0.3), doneAction:2);
 	sig = sig * env;
-	Out.ar(0, Pan2.ar(sig, pan, amp));
+	Out.ar(out, Pan2.ar(sig, pan, amp));
 }).add;
 
 
