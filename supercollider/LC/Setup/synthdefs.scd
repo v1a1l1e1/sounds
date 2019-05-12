@@ -182,17 +182,17 @@ SynthDef(\gplay2,
  r = rate
 */
 SynthDef(\tgrain, {
-	|out = 0, in, fm=2, fM=200, d=4,offm=0, offM=0.01, r=1|
+	|out = 0, in, fm=2, fM=200, d=4,offm=0, offM=0.01, r=1,on=0|
 	var trigger, tfreq, buf, rate, pos, dur,pan, amp,int;
 	rate = LFNoise1.kr(1);int=4;amp=0.1;
 	buf = in;
 	tfreq = LFNoise1.kr(0.5).range(fm,fM,1);
 	dur = d/tfreq;
 	rate = r;
-	trigger = Impulse.kr(tfreq);
+	trigger = Impulse.kr(tfreq*on);
 	pos = LFNoise1.kr(0.6).range(0.7, (BufDur.kr(buf)/100*80)) + TRand.kr(offm,offM,trigger).postln;
 	pan = WhiteNoise.kr(0.6);
-	Out.ar(0, TGrains.ar(2, trigger, buf, rate, pos, dur, pan, amp, int));
+	Out.ar(out, TGrains.ar(2, trigger, buf, rate, pos, dur, pan, amp, int));
 }).add;
 
 /*--------------------------------------------------------------------------------*/
